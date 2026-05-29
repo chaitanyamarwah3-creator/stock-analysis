@@ -20,6 +20,9 @@ def calculate_indicators(df):
     # Exponential Moving Averages (EMA)
     df['EMA_9'] = df['Close'].ewm(span=9, adjust=False).mean()
     df['EMA_21'] = df['Close'].ewm(span=21, adjust=False).mean()
+    df['EMA_ratio'] = df['EMA_9'] / df['EMA_21']
+    df['EMA_9_pct'] = df['EMA_9'] / df['Close']
+    df['EMA_21_pct'] = df['EMA_21'] / df['Close']
     
     # MACD
     ema_12 = df['Close'].ewm(span=12, adjust=False).mean()
@@ -27,6 +30,9 @@ def calculate_indicators(df):
     df['MACD'] = ema_12 - ema_26
     df['MACD_signal'] = df['MACD'].ewm(span=9, adjust=False).mean()
     df['MACD_hist'] = df['MACD'] - df['MACD_signal']
+    df['MACD_pct'] = df['MACD'] / df['Close']
+    df['MACD_signal_pct'] = df['MACD_signal'] / df['Close']
+    df['MACD_hist_pct'] = df['MACD_hist'] / df['Close']
     
     # RSI (Relative Strength Index)
     delta = df['Close'].diff()
@@ -67,7 +73,7 @@ def prepare_dataset():
     
     for ticker in tickers:
         print(f"Downloading {ticker}...")
-        df = yf.download(ticker, start='2018-01-01', end='2026-05-01')
+        df = yf.download(ticker, start='2018-01-01', end='2026-05-29')
         if df.empty:
             continue
         
@@ -110,7 +116,8 @@ def train_model():
     df = prepare_dataset()
     
     features = [
-        'SMA_ratio', 'EMA_9', 'EMA_21', 'MACD', 'MACD_signal', 'MACD_hist',
+        'SMA_ratio', 'EMA_ratio', 'EMA_9_pct', 'EMA_21_pct',
+        'MACD_pct', 'MACD_signal_pct', 'MACD_hist_pct',
         'RSI', 'BB_width', 'ROC_5', 'ROC_10', 'Volatility'
     ]
     

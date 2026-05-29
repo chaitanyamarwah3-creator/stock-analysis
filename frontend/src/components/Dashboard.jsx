@@ -3,14 +3,14 @@ import {
   TrendingUp, 
   TrendingDown, 
   Search, 
-  Upload, 
   Activity, 
   Clock, 
   ArrowLeft, 
   AlertCircle, 
   Image as ImageIcon,
   CheckCircle,
-  HelpCircle
+  HelpCircle,
+  Cpu
 } from 'lucide-react';
 import { 
   AreaChart, 
@@ -18,6 +18,7 @@ import {
   XAxis, 
   YAxis, 
   Tooltip, 
+  CartesianGrid,
   ResponsiveContainer 
 } from 'recharts';
 
@@ -136,54 +137,66 @@ const Dashboard = ({ mode, onBack }) => {
     const isBullish = prediction === 'Bullish';
     const isBearish = prediction === 'Bearish';
     
-    let className = 'neutral-text';
+    let colorClass = 'neutral-text';
     let label = 'NEUTRAL RANGE';
     let Icon = HelpCircle;
-    let bgStyle = { boxShadow: '0 8px 32px rgba(0,0,0,0.8), 0 0 15px rgba(0, 180, 216, 0.1)', border: '1px solid var(--neutral)' };
+    let borderAccent = 'rgba(56, 189, 248, 0.4)'; // blue
 
     if (isBullish) {
-      className = 'bullish-text';
+      colorClass = 'bullish-text';
       label = 'BULLISH SIGNAL';
       Icon = TrendingUp;
-      bgStyle = { boxShadow: '0 8px 32px rgba(0,0,0,0.8), 0 0 15px rgba(207, 162, 82, 0.15)', border: '1px solid var(--secondary)' };
+      borderAccent = 'rgba(223, 183, 108, 0.5)'; // gold
     } else if (isBearish) {
-      className = 'bearish-text';
+      colorClass = 'bearish-text';
       label = 'BEARISH PRESSURE';
       Icon = TrendingDown;
-      bgStyle = { boxShadow: '0 8px 32px rgba(0,0,0,0.8), 0 0 15px rgba(255, 51, 75, 0.15)', border: '1px solid var(--bearish)' };
+      borderAccent = 'rgba(255, 56, 92, 0.5)'; // red
     }
 
     return (
-      <div className="glass-panel" style={{ padding: '24px', textAlign: 'center', minWidth: '280px', ...bgStyle }}>
-        <Icon style={{ width: '48px', height: '48px', marginBottom: '12px' }} className={className} />
-        <h4 style={{ textTransform: 'uppercase', letterSpacing: '2px', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Telemetry Status</h4>
-        <h2 style={{ fontSize: '2.1rem', fontWeight: 800, margin: '10px 0', fontFamily: 'Outfit' }} className={className}>
+      <div 
+        className="glass-panel" 
+        style={{ 
+          padding: '30px 24px', 
+          textAlign: 'center', 
+          minWidth: '280px', 
+          borderLeft: `3px solid ${borderAccent}`,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+      >
+        <Icon style={{ width: '40px', height: '40px', marginBottom: '16px' }} className={colorClass} />
+        <span className="tech-label" style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>Diagnostic Status</span>
+        <h2 style={{ fontSize: '1.8rem', fontWeight: 900, margin: '8px 0 16px 0', letterSpacing: '0.05em' }} className={colorClass}>
           {label}
         </h2>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
-          <span style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-primary)' }}>{confidence.toFixed(1)}%</span>
-          <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', letterSpacing: '1px', fontFamily: 'Outfit' }}>Confidence Matrix</span>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px' }}>
+          <span className="tech-value" style={{ fontSize: '1.5rem', fontWeight: 700 }}>{confidence.toFixed(1)}%</span>
+          <span className="tech-label" style={{ fontSize: '0.65rem' }}>Confidence Matrix</span>
         </div>
       </div>
     );
   };
 
   return (
-    <div className="animate-fade-in" style={{ width: '100%', maxWidth: '1200px', margin: '0 auto', padding: '20px' }}>
+    <div className="animate-fade-in" style={{ width: '100%', maxWidth: '1200px', margin: '0 auto', padding: '10px' }}>
       
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '35px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '40px' }}>
         <button className="glass-btn" onClick={onBack} style={{ padding: '10px' }}>
-          <ArrowLeft style={{ width: '20px', height: '20px' }} />
+          <ArrowLeft style={{ width: '18px', height: '18px' }} />
         </button>
         <div>
-          <h1 className="gradient-text" style={{ fontSize: '2.4rem', fontWeight: 900 }}>
-            {mode === 'live' ? 'Performance Diagnostic' : 'Vision System Input'}
+          <h1 className="gradient-text" style={{ fontSize: '2.2rem', fontWeight: 900 }}>
+            {mode === 'live' ? 'Telemetry Diagnostics' : 'Vision Diagnostics'}
           </h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginTop: '4px' }}>
             {mode === 'live' 
-              ? 'Stream live market telemetry and process technical vectors through the Random Forest Classifier' 
-              : 'Ingest chart graphics. The vision engine maps candlestick parameters, computes pixel offsets, and scores wicks.'}
+              ? 'Stream real-time Indian market data directly through the Random Forest Classifier.' 
+              : 'Scan candlestick image coordinates. The cv2 path scanner maps price vectors and wick limits.'}
           </p>
         </div>
       </div>
@@ -195,10 +208,10 @@ const Dashboard = ({ mode, onBack }) => {
           {mode === 'live' ? (
             <form onSubmit={handleSearch} style={{ display: 'flex', gap: '12px' }}>
               <div style={{ position: 'relative', flex: 1 }}>
-                <Search style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', width: '20px', height: '20px' }} />
+                <Search style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', width: '18px', height: '18px' }} />
                 <input 
                   type="text" 
-                  placeholder="Enter NSE Ticker (e.g. RELIANCE, TCS, TITAGARH, SBIN)..." 
+                  placeholder="Enter Ticker Symbol (e.g. TCS, RELIANCE, TITAGARH, SBIN)..." 
                   className="glass-input" 
                   style={{ width: '100%', paddingLeft: '50px' }}
                   value={ticker}
@@ -207,7 +220,7 @@ const Dashboard = ({ mode, onBack }) => {
                 />
               </div>
               <button type="submit" className="glass-btn glass-btn-primary" disabled={loading}>
-                {loading ? 'Analyzing...' : 'RUN DIAGNOSTIC'}
+                {loading ? 'CALCULATING...' : 'ENGAGE DIAGNOSTIC'}
               </button>
             </form>
           ) : (
@@ -215,10 +228,10 @@ const Dashboard = ({ mode, onBack }) => {
               <div 
                 className="glass-panel" 
                 style={{ 
-                  border: `2px dashed ${dragActive ? 'var(--primary)' : 'rgba(255,255,255,0.1)'}`,
-                  background: dragActive ? 'rgba(0, 242, 254, 0.05)' : 'rgba(2, 6, 23, 0.4)',
-                  borderRadius: '12px',
-                  padding: '40px 20px',
+                  border: `1px dashed ${dragActive ? 'var(--secondary)' : 'var(--border-color)'}`,
+                  background: dragActive ? 'rgba(223, 183, 108, 0.02)' : '#07090b',
+                  borderRadius: '2px',
+                  padding: '50px 20px',
                   textAlign: 'center',
                   cursor: 'pointer',
                   transition: 'all 0.3s'
@@ -242,17 +255,17 @@ const Dashboard = ({ mode, onBack }) => {
                     <img 
                       src={previewUrl} 
                       alt="Chart preview" 
-                      style={{ maxHeight: '200px', maxWidth: '100%', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }} 
+                      style={{ maxHeight: '220px', maxWidth: '100%', borderRadius: '2px', border: '1px solid var(--border-color)' }} 
                     />
-                    <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>{selectedFile.name}</p>
+                    <p className="tech-value" style={{ fontSize: '0.85rem' }}>{selectedFile.name}</p>
                   </div>
                 ) : (
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
-                    <div style={{ padding: '16px', background: 'rgba(255,255,255,0.02)', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.05)' }}>
-                      <ImageIcon style={{ width: '36px', height: '36px', color: 'var(--primary)' }} />
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '14px' }}>
+                    <div style={{ padding: '16px', background: 'rgba(255,255,255,0.01)', border: '1px solid var(--border-color)' }}>
+                      <ImageIcon style={{ width: '30px', height: '30px', color: 'var(--secondary)' }} />
                     </div>
-                    <h3 style={{ fontSize: '1.1rem', fontWeight: 600 }}>Drag and drop your screenshot here</h3>
-                    <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>or click to browse from files (PNG, JPG, JPEG)</p>
+                    <h3 className="tech-label" style={{ fontSize: '0.85rem' }}>DRAG AND DROP CHART TELEMETRY</h3>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>or click to browse from local storage (PNG, JPG, JPEG)</p>
                   </div>
                 )}
               </div>
@@ -264,7 +277,7 @@ const Dashboard = ({ mode, onBack }) => {
                   disabled={loading}
                   style={{ alignSelf: 'flex-end' }}
                 >
-                  {loading ? 'Processing Image...' : 'Run Computer Vision Predictor'}
+                  {loading ? 'SCANNING COORDINATES...' : 'ENGAGE VISION DETECTOR'}
                 </button>
               )}
             </div>
@@ -274,31 +287,31 @@ const Dashboard = ({ mode, onBack }) => {
             <div style={{ 
               display: 'flex', 
               alignItems: 'center', 
-              gap: '10px', 
+              gap: '12px', 
               marginTop: '20px', 
               padding: '16px', 
-              background: 'rgba(244, 63, 94, 0.08)', 
-              border: '1px solid rgba(244, 63, 94, 0.15)',
-              borderRadius: '10px',
+              background: 'rgba(255, 56, 92, 0.05)', 
+              border: '1px solid rgba(255, 56, 92, 0.1)',
+              borderRadius: '2px',
               color: 'var(--bearish)'
             }}>
-              <AlertCircle style={{ width: '20px', height: '20px', flexShrink: 0 }} />
-              <span style={{ fontSize: '0.9rem' }}>{error}</span>
+              <AlertCircle style={{ width: '18px', height: '18px', flexShrink: 0 }} />
+              <span className="tech-value" style={{ fontSize: '0.85rem' }}>{error}</span>
             </div>
           )}
         </div>
 
         {/* Results Presentation Panel */}
         {loading && (
-          <div className="glass-panel" style={{ padding: '50px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
-            <div className="animate-float" style={{ padding: '15px', background: 'rgba(0, 242, 254, 0.05)', borderRadius: '50%', border: '1px solid rgba(0, 242, 254, 0.15)' }}>
-              <Activity style={{ width: '40px', height: '40px', color: 'var(--primary)' }} />
+          <div className="glass-panel" style={{ padding: '60px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
+            <div className="animate-float" style={{ padding: '16px', background: 'rgba(255,255,255,0.01)', border: '1px solid var(--secondary)' }}>
+              <Activity style={{ width: '36px', height: '36px', color: 'var(--secondary)' }} />
             </div>
-            <h3 style={{ fontSize: '1.2rem', fontWeight: 600 }}>Running Prediction Algorithms...</h3>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', maxWidth: '350px', textAlign: 'center' }}>
+            <h3 className="tech-label" style={{ fontSize: '0.85rem' }}>PROCESSING TELEMETRY VECTOR FIELDS...</h3>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', maxWidth: '400px', textAlign: 'center', lineHeight: 1.6 }}>
               {mode === 'live' 
-                ? 'Pulling data from yfinance, engineering indicators and evaluating Random Forest rules.'
-                : 'Converting pixels, applying contours extraction and measuring linear regression slopes.'}
+                ? 'Requesting NSE datasets, compiling rolling technical matrices, and performing classification runs.'
+                : 'Mapping colored pixel matrices, extracting contours, and tracing trend coefficients.'}
             </p>
           </div>
         )}
@@ -307,71 +320,104 @@ const Dashboard = ({ mode, onBack }) => {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '30px' }}>
             
             {/* Top Stats Overview */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '25px' }}>
               {renderPredictionBadge(data.prediction, data.confidence)}
               
-              <div className="glass-panel" style={{ flex: 1, padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'center', minWidth: '280px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--text-secondary)', marginBottom: '8px' }}>
-                  <Clock style={{ width: '18px', height: '18px' }} />
-                  <span style={{ fontWeight: 800, letterSpacing: '1px', fontSize: '0.8rem', fontFamily: 'Outfit' }}>NEXT SHIFT</span>
+              {/* Technical Specifications Sheet */}
+              <div className="glass-panel" style={{ padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-secondary)', marginBottom: '20px' }}>
+                  <Cpu style={{ width: '16px', height: '16px', color: 'var(--secondary)' }} />
+                  <span className="tech-label" style={{ fontSize: '0.75rem' }}>TELEMETRY VECTORS</span>
                 </div>
-                <h3 style={{ fontSize: '1.6rem', fontWeight: 800, margin: '4px 0', fontFamily: 'Syne' }}>
-                  ~{data.changeDaysApprox} Market Days
-                </h3>
-                <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                  
+                  {/* Symbol / Identifier */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-color)', paddingBottom: '6px' }}>
+                    <span className="tech-label" style={{ color: 'var(--text-secondary)', fontSize: '0.7rem' }}>Identifier Ticker</span>
+                    <span className="tech-value" style={{ fontWeight: 700 }}>{data.symbol || 'CV_INPUT'}</span>
+                  </div>
+
+                  {/* Spot Price */}
+                  {mode === 'live' && (
+                    <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-color)', paddingBottom: '6px' }}>
+                      <span className="tech-label" style={{ color: 'var(--text-secondary)', fontSize: '0.7rem' }}>Spot Price</span>
+                      <span className="tech-value" style={{ fontWeight: 700, color: 'var(--secondary)' }}>
+                        ₹{data.currentPrice.toFixed(2)}
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Price Change */}
+                  {mode === 'live' && (
+                    <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-color)', paddingBottom: '6px' }}>
+                      <span className="tech-label" style={{ color: 'var(--text-secondary)', fontSize: '0.7rem' }}>Delta Delta</span>
+                      <span className="tech-value" style={{ 
+                        fontWeight: 700, 
+                        color: data.priceChange >= 0 ? 'var(--bullish)' : 'var(--bearish)'
+                      }}>
+                        {data.priceChange >= 0 ? '+' : ''}₹{data.priceChange.toFixed(2)} ({data.priceChangePct.toFixed(2)}%)
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Est Shift Time */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-color)', paddingBottom: '6px' }}>
+                    <span className="tech-label" style={{ color: 'var(--text-secondary)', fontSize: '0.7rem' }}>Trend Duration</span>
+                    <span className="tech-value" style={{ fontWeight: 700 }}>
+                      ~{data.changeDaysApprox} Market Days
+                    </span>
+                  </div>
+                  
+                </div>
+              </div>
+
+              {/* Koenigsegg Squadron Notes / Trend Advice */}
+              <div className="glass-panel" style={{ padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-secondary)', marginBottom: '14px' }}>
+                  <Clock style={{ width: '16px', height: '16px', color: 'var(--secondary)' }} />
+                  <span className="tech-label" style={{ fontSize: '0.75rem' }}>SYSTEM SPECIFICATION</span>
+                </div>
+                <h4 className="tech-label" style={{ fontSize: '0.85rem', color: 'var(--text-primary)', marginBottom: '6px' }}>
+                  Estimated Trend Calibration
+                </h4>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', lineHeight: 1.6 }}>
                   {mode === 'live' 
-                    ? 'Time left before indicators cross over and the vibe changes.'
+                    ? 'Indicator crossover signals state boundary. Keep telemetry calibrated.'
                     : data.changePrediction}
                 </p>
               </div>
-
-              {mode === 'live' && (
-                <div className="glass-panel" style={{ flex: 1, padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'center', minWidth: '240px' }}>
-                  <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', fontWeight: 800, letterSpacing: '1px', fontFamily: 'Outfit' }}>SPOT PRICE ({data.symbol})</span>
-                  <h3 style={{ fontSize: '2rem', fontWeight: 900, margin: '4px 0', fontFamily: 'Syne', color: 'var(--primary)' }}>
-                    ₹{data.currentPrice.toFixed(2)}
-                  </h3>
-                  <span style={{ 
-                    fontSize: '1rem', 
-                    fontWeight: 700, 
-                    color: data.priceChange >= 0 ? 'var(--bullish)' : 'var(--bearish)',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '4px'
-                  }}>
-                    {data.priceChange >= 0 ? '+' : ''}₹{data.priceChange.toFixed(2)} ({data.priceChangePct.toFixed(2)}%)
-                  </span>
-                </div>
-              )}
             </div>
 
             {/* Visual Charts & In-depth breakdown */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr lg:3fr', gap: '30px' }} className="responsive-grid">
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '30px' }}>
               
               {/* Chart Block */}
               {mode === 'live' && data.chartData && (
-                <div className="glass-panel" style={{ padding: '24px', gridColumn: 'span 2' }}>
-                  <h3 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '20px' }}>30-Day Historical Trend & Indicators</h3>
+                <div className="glass-panel" style={{ padding: '24px' }}>
+                  <h3 className="tech-label" style={{ fontSize: '0.85rem', marginBottom: '20px' }}>Telemetry Graphics (30-day index timeline)</h3>
                   <div style={{ width: '100%', height: '350px' }}>
                     <ResponsiveContainer width="100%" height="100%">
                       <AreaChart data={data.chartData}>
                         <defs>
                           <linearGradient id="colorPrice" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor={data.prediction === 'Bullish' ? 'var(--bullish)' : 'var(--bearish)'} stopOpacity={0.25}/>
-                            <stop offset="95%" stopColor={data.prediction === 'Bullish' ? 'var(--bullish)' : 'var(--bearish)'} stopOpacity={0.01}/>
+                            <stop offset="5%" stopColor={data.prediction === 'Bullish' ? 'var(--bullish)' : 'var(--bearish)'} stopOpacity={0.15}/>
+                            <stop offset="95%" stopColor={data.prediction === 'Bullish' ? 'var(--bullish)' : 'var(--bearish)'} stopOpacity={0.00}/>
                           </linearGradient>
                         </defs>
-                        <XAxis dataKey="date" stroke="var(--text-muted)" fontSize={11} tickLine={false} />
-                        <YAxis domain={['auto', 'auto']} stroke="var(--text-muted)" fontSize={11} axisLine={false} tickLine={false} />
+                        <CartesianGrid stroke="rgba(255, 255, 255, 0.015)" strokeDasharray="3 3" />
+                        <XAxis dataKey="date" stroke="var(--text-muted)" fontSize={10} tickLine={false} style={{ fontFamily: 'JetBrains Mono' }} />
+                        <YAxis domain={['auto', 'auto']} stroke="var(--text-muted)" fontSize={10} axisLine={false} tickLine={false} style={{ fontFamily: 'JetBrains Mono' }} />
                         <Tooltip 
-                          contentStyle={{ backgroundColor: 'rgba(7, 10, 19, 0.95)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px' }}
-                          labelStyle={{ color: 'var(--text-primary)', fontWeight: 600 }}
+                          contentStyle={{ backgroundColor: 'rgba(5, 6, 8, 0.98)', border: '1px solid var(--border-color)', borderRadius: '2px' }}
+                          labelStyle={{ color: 'var(--text-primary)', fontFamily: 'Outfit', fontWeight: 800, fontSize: '0.8rem' }}
+                          itemStyle={{ fontFamily: 'JetBrains Mono', fontSize: '0.85rem' }}
                         />
                         <Area 
                           type="monotone" 
                           dataKey="price" 
                           stroke={data.prediction === 'Bullish' ? 'var(--bullish)' : 'var(--bearish)'} 
-                          strokeWidth={2}
+                          strokeWidth={1.5}
                           fillOpacity={1} 
                           fill="url(#colorPrice)" 
                         />
@@ -382,54 +428,54 @@ const Dashboard = ({ mode, onBack }) => {
               )}
 
               {/* Technical / CV metrics */}
-              <div className="glass-panel" style={{ padding: '24px', gridColumn: 'span 2' }}>
-                <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '15px', fontFamily: 'Outfit', letterSpacing: '0.5px' }}>
-                  {mode === 'live' ? 'CHART RECEIPTS 🧾' : 'PIXEL VISION SCAN 🔮'}
+              <div className="glass-panel" style={{ padding: '24px' }}>
+                <h3 className="tech-label" style={{ fontSize: '0.85rem', marginBottom: '20px' }}>
+                  {mode === 'live' ? 'DIAGNOSTIC CRITERIA MATRIX' : 'VISION SYSTEM SIGNAL PATH'}
                 </h3>
                 
                 {mode === 'live' ? (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
                     {data.explanations.map((exp, index) => (
-                      <div key={index} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', padding: '12px', background: 'rgba(255,255,255,0.02)', borderRadius: '8px', borderLeft: `3px solid ${data.prediction === 'Bullish' ? 'var(--bullish)' : 'var(--bearish)'}` }}>
-                        <CheckCircle style={{ width: '18px', height: '18px', color: data.prediction === 'Bullish' ? 'var(--bullish)' : 'var(--bearish)', marginTop: '2px', flexShrink: 0 }} />
-                        <span style={{ fontSize: '0.9rem', color: 'var(--text-primary)', fontWeight: 500 }}>{exp}</span>
+                      <div key={index} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', padding: '14px', background: '#07090b', borderLeft: `2px solid ${data.prediction === 'Bullish' ? 'var(--bullish)' : 'var(--bearish)'}` }}>
+                        <CheckCircle style={{ width: '16px', height: '16px', color: data.prediction === 'Bullish' ? 'var(--bullish)' : 'var(--bearish)', marginTop: '2px', flexShrink: 0 }} />
+                        <span className="tech-value" style={{ fontSize: '0.85rem', color: 'var(--text-primary)' }}>{exp}</span>
                       </div>
                     ))}
-                    <div style={{ marginTop: '10px', padding: '16px', background: 'rgba(255, 0, 127, 0.03)', border: '2px solid rgba(255, 0, 127, 0.08)', borderRadius: '12px' }}>
-                      <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
-                        <strong>BRAIN COMPILATION 🧠:</strong> Random Forest model ran a full vibe check on historical charts to weigh up RSI, MACD crosses, and Bollinger Bands.
+                    <div style={{ marginTop: '10px', padding: '16px', background: 'rgba(223, 183, 108, 0.01)', border: '1px solid var(--border-color)' }}>
+                      <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+                        <strong>CALIBRATION RUN:</strong> Multi-layered Random Forest logic computed and scaled technical vectors (SMA/EMA ratios, MACD deviations, RSI limits) to yield this state classification.
                       </p>
                     </div>
                   </div>
                 ) : (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '25px' }}>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
-                      <div style={{ padding: '16px', background: 'rgba(255,255,255,0.02)', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                        <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', fontWeight: 600 }}>SLOPE GRADIENT</span>
-                        <h4 style={{ fontSize: '1.5rem', fontWeight: 800, marginTop: '4px', fontFamily: 'Syne', color: 'var(--primary)' }}>{(data.slope * 45).toFixed(1)}°</h4>
-                        <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '4px' }}>Mathematical slope coefficient normalized to width/height ratio.</p>
+                      <div style={{ padding: '18px', background: '#07090b', border: '1px solid var(--border-color)' }}>
+                        <span className="tech-label" style={{ fontSize: '0.65rem' }}>SLOPE GRADIENT</span>
+                        <h4 className="tech-value" style={{ fontSize: '1.4rem', fontWeight: 750, marginTop: '6px', color: 'var(--secondary)' }}>{(data.slope * 45).toFixed(1)}°</h4>
+                        <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '6px', lineHeight: 1.4 }}>Mathematical slope coefficient normalized to width/height ratio.</p>
                       </div>
-                      <div style={{ padding: '16px', background: 'rgba(255,255,255,0.02)', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                        <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', fontWeight: 600 }}>LATEST SWING</span>
-                        <h4 style={{ fontSize: '1.5rem', fontWeight: 800, marginTop: '4px', fontFamily: 'Syne', color: data.recentSlope >= 0 ? 'var(--bullish)' : 'var(--bearish)' }}>
-                          {data.recentSlope >= 0 ? 'Upward' : 'Downward'}
+                      <div style={{ padding: '18px', background: '#07090b', border: '1px solid var(--border-color)' }}>
+                        <span className="tech-label" style={{ fontSize: '0.65rem' }}>LATEST SWING</span>
+                        <h4 className="tech-value" style={{ fontSize: '1.4rem', fontWeight: 750, marginTop: '6px', color: data.recentSlope >= 0 ? 'var(--bullish)' : 'var(--bearish)' }}>
+                          {data.recentSlope >= 0 ? 'UPWARD' : 'DOWNWARD'}
                         </h4>
-                        <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '4px' }}>Slope measured over the final 20% interval of chart timeline.</p>
+                        <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '6px', lineHeight: 1.4 }}>Slope measured over the final 30% interval of chart timeline.</p>
                       </div>
-                      <div style={{ padding: '16px', background: 'rgba(255,255,255,0.02)', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                        <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', fontWeight: 600 }}>SAMPLED PIXELS</span>
-                        <h4 style={{ fontSize: '1.5rem', fontWeight: 800, marginTop: '4px', fontFamily: 'Syne', color: 'var(--primary)' }}>{data.pointsTraced} nodes</h4>
-                        <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '4px' }}>Distinct horizontal coordinates evaluated by the OpenCV path scanner.</p>
+                      <div style={{ padding: '18px', background: '#07090b', border: '1px solid var(--border-color)' }}>
+                        <span className="tech-label" style={{ fontSize: '0.65rem' }}>SAMPLED COORDINATES</span>
+                        <h4 className="tech-value" style={{ fontSize: '1.4rem', fontWeight: 750, marginTop: '6px' }}>{data.pointsTraced} NODES</h4>
+                        <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '6px', lineHeight: 1.4 }}>Distinct horizontal coordinates evaluated by the OpenCV path scanner.</p>
                       </div>
                     </div>
 
                     {data.explanations && data.explanations.length > 0 && (
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', borderTop: '2px solid rgba(255,255,255,0.05)', paddingTop: '20px' }}>
-                        <h4 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '8px', fontFamily: 'Outfit' }}>Parsed Chart Indicators & Patterns</h4>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', borderTop: '1px solid var(--border-color)', paddingTop: '20px' }}>
+                        <h4 className="tech-label" style={{ fontSize: '0.85rem', color: 'var(--text-primary)', marginBottom: '8px' }}>Parsed Chart Indicators & Patterns</h4>
                         {data.explanations.map((exp, index) => (
-                          <div key={index} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', padding: '12px', background: 'rgba(255,255,255,0.02)', borderRadius: '8px', borderLeft: `3px solid ${data.prediction === 'Bullish' ? 'var(--bullish)' : 'var(--bearish)'}` }}>
-                            <CheckCircle style={{ width: '18px', height: '18px', color: data.prediction === 'Bullish' ? 'var(--bullish)' : 'var(--bearish)', marginTop: '2px', flexShrink: 0 }} />
-                            <span style={{ fontSize: '0.9rem', color: 'var(--text-primary)', fontWeight: 500 }}>{exp}</span>
+                          <div key={index} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', padding: '12px', background: '#07090b', borderLeft: `3px solid ${data.prediction === 'Bullish' ? 'var(--bullish)' : 'var(--bearish)'}` }}>
+                            <CheckCircle style={{ width: '16px', height: '16px', color: data.prediction === 'Bullish' ? 'var(--bullish)' : 'var(--bearish)', marginTop: '2px', flexShrink: 0 }} />
+                            <span className="tech-value" style={{ fontSize: '0.85rem', color: 'var(--text-primary)' }}>{exp}</span>
                           </div>
                         ))}
                       </div>

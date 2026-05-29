@@ -1,9 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import ParticlesBg from './components/ParticlesBg';
 import Dashboard from './components/Dashboard';
-import { LineChart, ImageIcon, ShieldAlert, Cpu, Sparkles, CheckCircle2 } from 'lucide-react';
+import { LineChart, ImageIcon, Cpu, CheckCircle2 } from 'lucide-react';
 
 const API_BASE = 'http://127.0.0.1:8000/api';
+
+// Iconic Swedish Ghost Squadron badge (Koenigsegg hypercar brand mark)
+const GhostIcon = ({ className, style }) => (
+  <svg 
+    viewBox="0 0 100 100" 
+    className={className} 
+    style={{ width: '32px', height: '32px', fill: 'currentColor', transition: 'all 0.3s', ...style }}
+  >
+    <path d="M50 12C30 12 18 28 18 48C18 57 21 68 26 75C28 77 30 78 32 78C35 78 37 75 38 71C40 66 43 62 46 61C47 61 48 62 49 63C50 64 50 64 51 63C52 62 53 61 54 61C57 62 60 66 62 71C63 75 65 78 68 78C70 78 72 77 74 75C79 68 82 57 82 48C82 28 70 12 50 12ZM38 40C38 37 40 35 43 35C46 35 48 37 48 40C48 43 46 45 43 45C40 45 38 43 38 40ZM58 40C58 37 60 35 63 35C66 35 68 37 68 40C68 43 66 45 63 45C60 45 58 43 58 40Z" />
+  </svg>
+);
 
 function App() {
   const [mode, setMode] = useState('landing'); // 'landing' | 'live' | 'screenshot'
@@ -63,40 +74,40 @@ function App() {
         
         {/* Navigation / Top Bar */}
         <header style={{ 
-          padding: '20px 40px', 
+          padding: '24px 40px', 
           display: 'flex', 
           justifyContent: 'space-between', 
           alignItems: 'center', 
-          borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
-          background: 'rgba(2, 6, 23, 0.3)',
-          backdropFilter: 'blur(10px)'
+          borderBottom: '1px solid var(--border-color)',
+          background: 'rgba(5, 6, 8, 0.4)',
+          backdropFilter: 'blur(16px)'
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }} onClick={() => setMode('landing')}>
-            <Sparkles style={{ color: 'var(--secondary)', width: '24px', height: '24px' }} />
-            <span style={{ fontSize: '1.3rem', fontWeight: 900, letterSpacing: '2px', fontFamily: 'Outfit', color: 'var(--text-primary)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }} onClick={() => setMode('landing')}>
+            <GhostIcon style={{ color: 'var(--secondary)' }} />
+            <span className="tech-label" style={{ fontSize: '1.15rem', color: 'var(--text-primary)' }}>
               ANTIGRAVITY.TELEMETRY
             </span>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
             {trainingStatus === 'training' && (
-              <span style={{ fontSize: '0.85rem', color: 'var(--secondary)', display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 600 }}>
-                <span className="animate-float" style={{ display: 'inline-block' }}>⚙️</span> Ingesting Datasets...
+              <span className="tech-label" style={{ color: 'var(--secondary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span className="animate-float" style={{ display: 'inline-block' }}>⚙️</span> CALIBRATING CORE...
               </span>
             )}
             {trainingStatus === 'completed' && (
-              <span style={{ fontSize: '0.85rem', color: 'var(--bullish)', display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 600 }}>
-                <CheckCircle2 style={{ width: '14px', height: '14px' }} /> Calibration Complete
+              <span className="tech-label" style={{ color: 'var(--secondary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <CheckCircle2 style={{ width: '14px', height: '14px' }} /> CALIBRATION COMPLETE
               </span>
             )}
             {backendHealth && backendHealth.model_status === 'not_trained (using fallback rules)' && trainingStatus === 'idle' && (
               <button 
                 onClick={triggerTraining} 
                 className="glass-btn" 
-                style={{ padding: '8px 16px', fontSize: '0.8rem', borderColor: 'var(--secondary)' }}
+                style={{ padding: '8px 16px', fontSize: '0.75rem', borderColor: 'var(--secondary)' }}
               >
                 <Cpu style={{ width: '14px', height: '14px', color: 'var(--secondary)' }} />
-                Calibrate ML Core
+                CALIBRATE ML CORE
               </button>
             )}
           </div>
@@ -110,44 +121,54 @@ function App() {
             flexDirection: 'column', 
             justifyContent: 'center', 
             alignItems: 'center', 
-            padding: '40px 20px', 
-            textAlign: 'center' 
+            padding: '60px 20px', 
+            position: 'relative'
           }}>
-            <div className="animate-fade-in" style={{ maxWidth: '800px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            
+            {/* Huge low opacity Ghost logo as background watermark */}
+            <div style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 0,
+              pointerEvents: 'none',
+              opacity: 0.015,
+              color: '#ffffff'
+            }}>
+              <GhostIcon style={{ width: '450px', height: '450px' }} />
+            </div>
+
+            <div className="animate-fade-in" style={{ zIndex: 1, maxWidth: '850px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
               <div style={{ 
-                padding: '12px 24px', 
-                background: 'rgba(255, 255, 255, 0.02)', 
+                padding: '8px 18px', 
+                background: 'rgba(255, 255, 255, 0.01)', 
                 border: '1px solid var(--border-color)',
-                borderRadius: '4px',
-                fontSize: '0.8rem',
-                fontWeight: 800,
-                color: 'var(--text-secondary)',
-                letterSpacing: '2px',
-                marginBottom: '24px',
+                borderRadius: '2px',
+                marginBottom: '30px',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                fontFamily: 'Outfit'
               }}>
-                <Cpu style={{ width: '16px', height: '16px' }} />
-                HIGH-PERFORMANCE MODEL DIAGNOSTIC
+                <Cpu style={{ width: '14px', height: '14px', color: 'var(--secondary)' }} />
+                <span className="tech-label" style={{ fontSize: '0.7rem' }}>HIGH-PERFORMANCE MODEL DIAGNOSTICS</span>
               </div>
 
               {/* Greeting */}
-              <h1 style={{ fontSize: '3.8rem', fontWeight: 800, lineHeight: 1.15, marginBottom: '20px', fontFamily: 'Outfit', textTransform: 'uppercase', letterSpacing: '1px' }}>
-                Model Diagnostic Systems. <br />
-                <span className="gradient-text">Select Telemetry Mode.</span>
+              <h1 style={{ fontSize: '3.6rem', fontWeight: 900, lineHeight: 1.1, marginBottom: '24px', fontFamily: 'Outfit', textTransform: 'uppercase', letterSpacing: '0.02em' }}>
+                Technical Telemetry. <br />
+                <span className="gradient-text">Select Diagnostic Mode.</span>
               </h1>
               
               <p style={{ 
                 color: 'var(--text-secondary)', 
-                fontSize: '1.15rem', 
-                maxWidth: '650px', 
+                fontSize: '1.05rem', 
+                maxWidth: '600px', 
                 lineHeight: 1.6, 
-                marginBottom: '45px',
+                marginBottom: '50px',
                 fontWeight: 500
               }}>
-                Evaluate market vectors and technical trends. Ingest live ticker telemetry or stream chart graphics directly into the vision processing unit.
+                Stream technical vectors for Indian listings (NSE/BSE). Render and classify daily movement trend signals or extract candlestick wicks with the pixel scanner.
               </p>
 
               {/* Selector Cards */}
@@ -155,9 +176,9 @@ function App() {
                 display: 'flex', 
                 flexWrap: 'wrap', 
                 justifyContent: 'center', 
-                gap: '24px', 
+                gap: '30px', 
                 width: '100%', 
-                maxWidth: '720px' 
+                maxWidth: '780px' 
               }}>
                 
                 {/* Live Ticker Card */}
@@ -166,39 +187,40 @@ function App() {
                   onClick={() => setMode('live')}
                   style={{ 
                     flex: 1, 
-                    minWidth: '280px', 
-                    padding: '35px 30px', 
+                    minWidth: '300px', 
+                    padding: '40px 32px', 
                     cursor: 'pointer', 
                     textAlign: 'left',
                     position: 'relative',
-                    overflow: 'hidden'
+                    overflow: 'hidden',
+                    borderLeft: '2px solid rgba(255, 255, 255, 0.1)'
                   }}
                 >
                   <div style={{ 
                     position: 'absolute', 
-                    top: '-50px', 
-                    right: '-50px', 
-                    width: '120px', 
-                    height: '120px', 
+                    top: '-60px', 
+                    right: '-60px', 
+                    width: '140px', 
+                    height: '140px', 
                     background: 'radial-gradient(circle, var(--secondary-glow) 0%, rgba(0,0,0,0) 70%)',
                     pointerEvents: 'none'
                   }} />
                   
                   <div style={{ 
                     padding: '12px', 
-                    background: 'rgba(255, 255, 255, 0.02)', 
-                    borderRadius: '4px', 
+                    background: 'rgba(255, 255, 255, 0.01)', 
+                    borderRadius: '2px', 
                     width: 'fit-content',
                     border: '1px solid var(--border-color)',
-                    marginBottom: '20px'
+                    marginBottom: '24px'
                   }}>
-                    <LineChart style={{ color: 'var(--secondary)', width: '28px', height: '28px' }} />
+                    <LineChart style={{ color: 'var(--secondary)', width: '24px', height: '24px' }} />
                   </div>
-                  <h3 style={{ fontSize: '1.3rem', fontWeight: 800, marginBottom: '8px', color: 'var(--text-primary)', fontFamily: 'Outfit', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                  <h3 className="tech-label" style={{ fontSize: '1rem', marginBottom: '8px', color: 'var(--text-primary)' }}>
                     Live Ticker Telemetry
                   </h3>
-                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.5 }}>
-                    Stream spot prices for NSE listings (e.g. RELIANCE, TCS, TITAGARH). The ML classifier maps Moving Average slopes, MACD wicks, and RSI limits.
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', lineHeight: 1.5 }}>
+                    Evaluate spot prices for NSE listings (e.g. RELIANCE, TCS, TITAGARH). The ML core processes normalized scale-invariant indicator matrices.
                   </p>
                 </div>
 
@@ -208,39 +230,40 @@ function App() {
                   onClick={() => setMode('screenshot')}
                   style={{ 
                     flex: 1, 
-                    minWidth: '280px', 
-                    padding: '35px 30px', 
+                    minWidth: '300px', 
+                    padding: '40px 32px', 
                     cursor: 'pointer', 
                     textAlign: 'left',
                     position: 'relative',
-                    overflow: 'hidden'
+                    overflow: 'hidden',
+                    borderLeft: '2px solid rgba(255, 255, 255, 0.1)'
                   }}
                 >
                   <div style={{ 
                     position: 'absolute', 
-                    top: '-50px', 
-                    right: '-50px', 
-                    width: '120px', 
-                    height: '120px', 
+                    top: '-60px', 
+                    right: '-60px', 
+                    width: '140px', 
+                    height: '140px', 
                     background: 'radial-gradient(circle, var(--secondary-glow) 0%, rgba(0,0,0,0) 70%)',
                     pointerEvents: 'none'
                   }} />
 
                   <div style={{ 
                     padding: '12px', 
-                    background: 'rgba(255, 255, 255, 0.02)', 
-                    borderRadius: '4px', 
+                    background: 'rgba(255, 255, 255, 0.01)', 
+                    borderRadius: '2px', 
                     width: 'fit-content',
                     border: '1px solid var(--border-color)',
-                    marginBottom: '20px'
+                    marginBottom: '24px'
                   }}>
-                    <ImageIcon style={{ color: 'var(--secondary)', width: '28px', height: '28px' }} />
+                    <ImageIcon style={{ color: 'var(--secondary)', width: '24px', height: '24px' }} />
                   </div>
-                  <h3 style={{ fontSize: '1.3rem', fontWeight: 800, marginBottom: '8px', color: 'var(--text-primary)', fontFamily: 'Outfit', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                  <h3 className="tech-label" style={{ fontSize: '1rem', marginBottom: '8px', color: 'var(--text-primary)' }}>
                     Vision System Input
                   </h3>
-                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.5 }}>
-                    Ingest chart graphics. The vision engine segments candle parameters, computes pixel offsets, and scores wicks.
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', lineHeight: 1.5 }}>
+                    Ingest chart graphics. The vision engine segments candle contours, computes pixel heights, and scores wick reversals.
                   </p>
                 </div>
 
@@ -258,13 +281,15 @@ function App() {
         <footer style={{ 
           padding: '24px 40px', 
           textAlign: 'center', 
-          borderTop: '2px solid rgba(255, 255, 255, 0.03)',
+          borderTop: '1px solid var(--border-color)',
           color: 'var(--text-muted)',
-          fontSize: '0.85rem',
-          background: 'rgba(5, 2, 15, 0.4)',
-          fontWeight: 600
+          fontSize: '0.75rem',
+          background: 'rgba(5, 6, 8, 0.4)',
+          fontWeight: 700,
+          fontFamily: 'Outfit',
+          letterSpacing: '0.1em'
         }}>
-          Antigravity FinTech Studio • Built using FastAPI, React, OpenCV, and Random Forest models.
+          ANTIGRAVITY TELEMETRY SYSTEMS • POWERED BY FASTAPI, REACT & RANDOM FOREST CLASSIFIERS
         </footer>
       </main>
     </div>
@@ -272,3 +297,4 @@ function App() {
 }
 
 export default App;
+

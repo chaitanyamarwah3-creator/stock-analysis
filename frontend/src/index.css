@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 
 :root {
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -6,8 +6,8 @@
   font-weight: 400;
 
   color-scheme: dark;
-  color: #e3e7f0;
-  background-color: #060709; /* Koenigsegg Obsidian Black */
+  color: #f1f5f9;
+  background-color: #050608; /* Koenigsegg Obsidian Black */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -15,34 +15,34 @@
   -moz-osx-font-smoothing: grayscale;
 
   /* Koenigsegg Luxury Design Token Palette */
-  --bg-darker: #060709;
-  --bg-dark: #0c0e12;
-  --bg-card: rgba(13, 15, 19, 0.85);
-  --border-color: rgba(255, 255, 255, 0.08);
-  --border-color-hover: rgba(207, 162, 82, 0.4); /* Technical Gold hover border */
+  --bg-darker: #050608;
+  --bg-dark: #0a0c0f;
+  --bg-card: rgba(10, 12, 16, 0.85);
+  --border-color: rgba(255, 255, 255, 0.05);
+  --border-color-hover: rgba(223, 183, 108, 0.35); /* champagne gold */
 
   /* Supercar Telemetry Accent Colors */
   --primary: #ffffff;         /* Matte Silver/White */
-  --primary-glow: rgba(255, 255, 255, 0.05);
+  --primary-glow: rgba(255, 255, 255, 0.03);
   
-  --secondary: #cfa252;       /* Koenigsegg Technical Gold */
-  --secondary-glow: rgba(207, 162, 82, 0.15);
+  --secondary: #dfb76c;       /* Koenigsegg Champagne Gold */
+  --secondary-glow: rgba(223, 183, 108, 0.12);
   
-  --chrome-silver: #a3a8b4;   /* Instrument Cluster Silver */
+  --chrome-silver: #cbd5e1;   /* Cold Chrome */
 
   /* Trade States mapped to High-Performance Gauges */
-  --bullish: #cfa252;         /* Performance Gold for Bullish */
-  --bullish-glow: rgba(207, 162, 82, 0.2);
-  --bearish: #ff334b;         /* Racing Red for Bearish */
-  --bearish-glow: rgba(255, 51, 75, 0.2);
-  --neutral: #00b4d8;         /* Instrument Blue for Neutral */
-  --neutral-glow: rgba(0, 180, 216, 0.2);
+  --bullish: #dfb76c;         /* Champagne Gold */
+  --bullish-glow: rgba(223, 183, 108, 0.2);
+  --bearish: #ff385c;         /* Koenigsegg Brake Red */
+  --bearish-glow: rgba(255, 56, 92, 0.2);
+  --neutral: #38bdf8;         /* Instrument Blue */
+  --neutral-glow: rgba(56, 189, 248, 0.2);
 
-  --text-primary: #ffffff;
-  --text-secondary: #a3a8b4;   /* Clean silver-gray */
-  --text-muted: #515661;       /* Dark graphite */
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;   /* Clean silver-gray */
+  --text-muted: #475569;       /* Slate graphite */
   
-  --shadow-glow: 0 8px 32px rgba(0, 0, 0, 0.8), 0 0 1px rgba(255, 255, 255, 0.1);
+  --shadow-glow: 0 12px 40px rgba(0, 0, 0, 0.95), 0 0 1px rgba(255, 255, 255, 0.05);
 }
 
 * {
@@ -57,32 +57,47 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   background-color: var(--bg-darker);
+  /* Geometric blueprint lines in the background representing high performance calibration */
   background-image: 
-    radial-gradient(at 0% 0%, rgba(207, 162, 82, 0.03) 0px, transparent 60%),
-    radial-gradient(at 100% 100%, rgba(255, 255, 255, 0.02) 0px, transparent 60%);
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 80px 80px;
+  background-position: center;
 }
 
 /* Sharp, Minimalist Bento Layout */
 .glass-panel {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  border-radius: 6px; /* Sharp, precise supercar geometry */
+  border-radius: 4px; /* Crisp, precise hypercar lines */
   box-shadow: var(--shadow-glow);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(16px);
+}
+
+.glass-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
 }
 
 .glass-panel:hover {
   border-color: var(--border-color-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.9), 0 0 15px rgba(207, 162, 82, 0.05);
+  transform: translateY(-3px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.98), 0 0 25px rgba(223, 183, 108, 0.03);
 }
 
 /* Precise Input fields */
 .glass-input {
-  background: #0b0c10;
+  background: #040507;
   border: 1px solid var(--border-color);
-  border-radius: 4px;
+  border-radius: 2px;
   color: var(--text-primary);
   padding: 14px 18px;
   font-size: 0.95rem;
@@ -95,21 +110,21 @@ body {
 
 .glass-input:focus {
   border-color: var(--secondary);
-  box-shadow: 0 0 20px rgba(207, 162, 82, 0.15);
-  background: #0f1115;
+  box-shadow: 0 0 25px rgba(223, 183, 108, 0.12);
+  background: #080a0d;
 }
 
 /* Technical Instrument Buttons */
 .glass-btn {
-  background: #0d0f13;
+  background: #07090b;
   border: 1px solid var(--border-color);
-  border-radius: 4px;
+  border-radius: 2px;
   color: var(--text-primary);
   padding: 12px 24px;
-  font-size: 0.85rem;
-  font-weight: 700;
+  font-size: 0.8rem;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 0.15em;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex;
@@ -119,21 +134,21 @@ body {
 }
 
 .glass-btn:hover {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.02);
   border-color: var(--secondary);
-  transform: translateY(-1px);
+  color: var(--secondary);
 }
 
 .glass-btn-primary {
-  background: #cfa252;
+  background: var(--secondary);
   border: 1px solid transparent;
-  color: #060709;
+  color: #050608;
 }
 
 .glass-btn-primary:hover {
-  background: #e2b462;
-  box-shadow: 0 0 25px rgba(207, 162, 82, 0.35);
-  color: #060709;
+  background: #e9c788;
+  box-shadow: 0 0 25px rgba(223, 183, 108, 0.3);
+  color: #050608 !important;
 }
 
 /* Precision Animations */
@@ -142,14 +157,14 @@ body {
     transform: translateY(0px);
   }
   50% {
-    transform: translateY(-8px);
+    transform: translateY(-6px);
   }
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
@@ -158,7 +173,7 @@ body {
 }
 
 .animate-fade-in {
-  animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .animate-float {
@@ -191,18 +206,34 @@ body {
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #ffffff, var(--secondary), #8b92a1);
+  background: linear-gradient(135deg, #ffffff 20%, var(--secondary) 60%, #64748b 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   font-family: 'Outfit', sans-serif;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+}
+
+/* Technical spec labels & data outputs */
+.tech-label {
+  font-family: 'Outfit', sans-serif;
+  text-transform: uppercase;
+  font-size: 0.75rem;
   font-weight: 800;
-  letter-spacing: 1px;
+  letter-spacing: 0.18em;
+  color: var(--text-secondary);
+}
+
+.tech-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
+  color: var(--text-primary);
 }
 
 /* Custom Scrollbar (Stealth Carbon Track) */
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 4px;
 }
 ::-webkit-scrollbar-track {
   background: var(--bg-darker);
@@ -214,3 +245,4 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #ffffff;
 }
+
