@@ -1,0 +1,24 @@
+# Python Virtual Environment and Cache
+backend/venv/
+backend/__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Large ML Model files (should not be in Git)
+backend/stock_model.joblib
+backend/scaler.joblib
+backend/features_list.joblib
+
+# Frontend dependencies and builds
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/*.local
+
+# System files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
