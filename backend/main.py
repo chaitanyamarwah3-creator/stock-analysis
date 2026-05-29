@@ -4,6 +4,7 @@ from fastapi import FastAPI, File, UploadFile, Query, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from predictor import StockPredictor
 import subprocess
+import yfinance as yf
 
 app = FastAPI(
     title="Stock Trend Predictor API",
@@ -36,6 +37,52 @@ def predict_live(symbol: str = Query(..., description="Stock symbol (e.g. AAPL, 
     """Predict trend (Bullish/Bearish) using live data and ML Classifier."""
     result = predictor.predict_live(symbol)
     return result
+
+@app.get("/api/market/gainers-losers")
+def get_gainers_losers():
+    """Fetch top daily gainers and losers from major Indian stocks."""
+    tickers = [
+        'RELIANCE.NS', 'TCS.NS', 'HDFCBANK.NS', 'INFY.NS', 'ICICIBANK.NS',
+        'SBIN.NS', 'BHARTIARTL.NS', 'LT.NS', 'ITC.NS', 'TITAGARH.NS',
+        'WIPRO.NS', 'ADANIENT.NS', 'AXISBANK.NS', 'ASIANPAINT.NS', 'SUNPHARMA.NS'
+    ]
+    try:
+        data = yf.download(tickers, period="5d", group_by='ticker', progress=False)
+        results = []
+        for ticker in tickers:
+            if ticker not in data or data[ticker].empty:
+                continue
+            df = data[ticker]
+            df = df.dropna(subset=["Close", "Volume"])
+            df = df[df["Volume"] > 0]
+            if len(df) < 2:
+                continue
+            close_today = float(df["Close"].iloc[-1])
+            close_prev = float(df["Close"].iloc[-2])
+            change = close_today - close_prev
+            change_pct = (change / close_prev) * 100
+            
+            results.append({
+                "symbol": ticker.replace(".NS", ""),
+                "price": close_today,
+                "change": change,
+                "change_pct": change_pct
+            })
+            
+        if not results:
+            return {"success": False, "error": "No market telemetry could be parsed."}
+            
+        results.sort(key=lambda x: x["change_pct"], reverse=True)
+        gainers = results[:3]
+        losers = results[-3:][::-1] # reverse so worst loser is first
+        
+        return {
+            "success": True,
+            "gainers": gainers,
+            "losers": losers
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
 
 @app.post("/api/predict/screenshot")
 async def predict_screenshot(file: UploadFile = File(...)):

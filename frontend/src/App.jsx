@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ParticlesBg from './components/ParticlesBg';
 import Dashboard from './components/Dashboard';
-import { LineChart, ImageIcon, Cpu, CheckCircle2 } from 'lucide-react';
+import { LineChart, ImageIcon, Cpu, CheckCircle2, Activity, TrendingUp, TrendingDown } from 'lucide-react';
 
 const API_BASE = 'http://127.0.0.1:8000/api';
 
@@ -20,6 +20,7 @@ function App() {
   const [mode, setMode] = useState('landing'); // 'landing' | 'live' | 'screenshot'
   const [trainingStatus, setTrainingStatus] = useState('idle'); // 'idle' | 'training' | 'completed'
   const [backendHealth, setBackendHealth] = useState(null);
+  const [marketData, setMarketData] = useState(null);
 
   // Check health and model status from backend on load
   useEffect(() => {
@@ -32,7 +33,19 @@ function App() {
         console.warn('Backend not yet reachable:', err);
       }
     };
+    const fetchMarketData = async () => {
+      try {
+        const response = await fetch(`${API_BASE}/market/gainers-losers`);
+        const json = await response.json();
+        if (json.success) {
+          setMarketData(json);
+        }
+      } catch (err) {
+        console.warn('Failed to fetch market data:', err);
+      }
+    };
     checkBackend();
+    fetchMarketData();
   }, []);
 
   const triggerTraining = async () => {
@@ -133,7 +146,7 @@ function App() {
               transform: 'translate(-50%, -50%)',
               zIndex: 0,
               pointerEvents: 'none',
-              opacity: 0.015,
+              opacity: 0.012,
               color: '#ffffff'
             }}>
               <GhostIcon style={{ width: '450px', height: '450px' }} />
@@ -178,7 +191,8 @@ function App() {
                 justifyContent: 'center', 
                 gap: '30px', 
                 width: '100%', 
-                maxWidth: '780px' 
+                maxWidth: '780px',
+                marginBottom: '50px'
               }}>
                 
                 {/* Live Ticker Card */}
@@ -268,6 +282,61 @@ function App() {
                 </div>
 
               </div>
+
+              {/* Market Highlights Ticker panel */}
+              {marketData && (
+                <div className="glass-panel" style={{ 
+                  width: '100%', 
+                  maxWidth: '780px', 
+                  padding: '24px', 
+                  textAlign: 'left',
+                  borderLeft: '2px solid var(--secondary)'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '18px', color: 'var(--text-secondary)' }}>
+                    <Activity style={{ width: '14px', height: '14px', color: 'var(--secondary)' }} />
+                    <span className="tech-label" style={{ fontSize: '0.75rem' }}>TODAY'S MARKET HIGHLIGHTS (NSE)</span>
+                  </div>
+                  
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px' }} className="responsive-grid">
+                    {/* Top Gainers */}
+                    <div>
+                      <h4 className="tech-label" style={{ color: 'var(--bullish)', fontSize: '0.7rem', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <TrendingUp style={{ width: '12px', height: '12px' }} /> TOP PERFORMERS
+                      </h4>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                        {marketData.gainers.map((gainer, idx) => (
+                          <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-color)', paddingBottom: '6px' }}>
+                            <span className="tech-value" style={{ fontSize: '0.82rem', fontWeight: 700 }}>{gainer.symbol}</span>
+                            <div style={{ display: 'flex', gap: '10px', alignItems: 'baseline' }}>
+                              <span className="tech-value" style={{ fontSize: '0.82rem' }}>₹{gainer.price.toFixed(2)}</span>
+                              <span className="tech-value" style={{ fontSize: '0.75rem', color: 'var(--bullish)', fontWeight: 700 }}>+{gainer.change_pct.toFixed(2)}%</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Top Losers */}
+                    <div>
+                      <h4 className="tech-label" style={{ color: 'var(--bearish)', fontSize: '0.7rem', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <TrendingDown style={{ width: '12px', height: '12px' }} /> UNDER PERFORMERS
+                      </h4>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                        {marketData.losers.map((loser, idx) => (
+                          <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-color)', paddingBottom: '6px' }}>
+                            <span className="tech-value" style={{ fontSize: '0.82rem', fontWeight: 700 }}>{loser.symbol}</span>
+                            <div style={{ display: 'flex', gap: '10px', alignItems: 'baseline' }}>
+                              <span className="tech-value" style={{ fontSize: '0.82rem' }}>₹{loser.price.toFixed(2)}</span>
+                              <span className="tech-value" style={{ fontSize: '0.75rem', color: 'var(--bearish)', fontWeight: 700 }}>{loser.change_pct.toFixed(2)}%</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
             </div>
           </div>
         ) : (
@@ -297,4 +366,3 @@ function App() {
 }
 
 export default App;
-
