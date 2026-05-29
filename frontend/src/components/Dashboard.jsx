@@ -137,32 +137,32 @@ const Dashboard = ({ mode, onBack }) => {
     const isBearish = prediction === 'Bearish';
     
     let className = 'neutral-text';
-    let label = 'VIBING 🧘';
+    let label = 'NEUTRAL RANGE';
     let Icon = HelpCircle;
-    let bgStyle = { boxShadow: '0 0 25px rgba(0, 245, 255, 0.2)', border: '2px solid rgba(0, 245, 255, 0.2)' };
+    let bgStyle = { boxShadow: '0 8px 32px rgba(0,0,0,0.8), 0 0 15px rgba(0, 180, 216, 0.1)', border: '1px solid var(--neutral)' };
 
     if (isBullish) {
       className = 'bullish-text';
-      label = 'TO THE MOON! 🚀';
+      label = 'BULLISH SIGNAL';
       Icon = TrendingUp;
-      bgStyle = { boxShadow: '0 0 35px rgba(204, 255, 0, 0.3)', border: '2px solid rgba(204, 255, 0, 0.35)' };
+      bgStyle = { boxShadow: '0 8px 32px rgba(0,0,0,0.8), 0 0 15px rgba(207, 162, 82, 0.15)', border: '1px solid var(--secondary)' };
     } else if (isBearish) {
       className = 'bearish-text';
-      label = 'DOWN BAD... 📉';
+      label = 'BEARISH PRESSURE';
       Icon = TrendingDown;
-      bgStyle = { boxShadow: '0 0 35px rgba(255, 0, 127, 0.3)', border: '2px solid rgba(255, 0, 127, 0.35)' };
+      bgStyle = { boxShadow: '0 8px 32px rgba(0,0,0,0.8), 0 0 15px rgba(255, 51, 75, 0.15)', border: '1px solid var(--bearish)' };
     }
 
     return (
       <div className="glass-panel" style={{ padding: '24px', textAlign: 'center', minWidth: '280px', ...bgStyle }}>
         <Icon style={{ width: '48px', height: '48px', marginBottom: '12px' }} className={className} />
-        <h4 style={{ textTransform: 'uppercase', letterSpacing: '2px', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Market vibes</h4>
-        <h2 style={{ fontSize: '2.1rem', fontWeight: 900, margin: '10px 0' }} className={className}>
+        <h4 style={{ textTransform: 'uppercase', letterSpacing: '2px', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Telemetry Status</h4>
+        <h2 style={{ fontSize: '2.1rem', fontWeight: 800, margin: '10px 0', fontFamily: 'Outfit' }} className={className}>
           {label}
         </h2>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
           <span style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-primary)' }}>{confidence.toFixed(1)}%</span>
-          <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>VIBE CHECK</span>
+          <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', letterSpacing: '1px', fontFamily: 'Outfit' }}>Confidence Matrix</span>
         </div>
       </div>
     );
@@ -178,12 +178,12 @@ const Dashboard = ({ mode, onBack }) => {
         </button>
         <div>
           <h1 className="gradient-text" style={{ fontSize: '2.4rem', fontWeight: 900 }}>
-            {mode === 'live' ? 'Live Ticker Predictor' : 'Pixel Vision Scan 🔮'}
+            {mode === 'live' ? 'Performance Diagnostic' : 'Vision System Input'}
           </h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>
             {mode === 'live' 
-              ? 'Fetch real-time stock technicals and evaluate with Random Forest Classification' 
-              : 'Upload a graph image. Our OpenCV engine scans pixels, traces candle trends and computes wicks.'}
+              ? 'Stream live market telemetry and process technical vectors through the Random Forest Classifier' 
+              : 'Ingest chart graphics. The vision engine maps candlestick parameters, computes pixel offsets, and scores wicks.'}
           </p>
         </div>
       </div>
@@ -207,7 +207,7 @@ const Dashboard = ({ mode, onBack }) => {
                 />
               </div>
               <button type="submit" className="glass-btn glass-btn-primary" disabled={loading}>
-                {loading ? 'Analyzing...' : 'Predict'}
+                {loading ? 'Analyzing...' : 'RUN DIAGNOSTIC'}
               </button>
             </form>
           ) : (

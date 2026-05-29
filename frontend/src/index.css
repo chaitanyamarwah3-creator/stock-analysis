@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 
 :root {
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -6,44 +6,43 @@
   font-weight: 400;
 
   color-scheme: dark;
-  color: #f1f5f9;
-  background-color: #070314; /* Deep dark space violet */
+  color: #e3e7f0;
+  background-color: #060709; /* Koenigsegg Obsidian Black */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  /* Gen Z Neon & Acid Palette */
-  --bg-darker: #05020f;
-  --bg-dark: #09041a;
-  --bg-card: rgba(12, 6, 31, 0.7);
-  --border-color: rgba(255, 0, 127, 0.15); /* Neon pink border */
-  --border-color-hover: rgba(0, 245, 255, 0.4); /* Neon cyan hover border */
+  /* Koenigsegg Luxury Design Token Palette */
+  --bg-darker: #060709;
+  --bg-dark: #0c0e12;
+  --bg-card: rgba(13, 15, 19, 0.85);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-color-hover: rgba(207, 162, 82, 0.4); /* Technical Gold hover border */
 
-  /* Neon Colors */
-  --primary: #00f5ff;       /* Acid Cyan */
-  --primary-glow: rgba(0, 245, 255, 0.25);
+  /* Supercar Telemetry Accent Colors */
+  --primary: #ffffff;         /* Matte Silver/White */
+  --primary-glow: rgba(255, 255, 255, 0.05);
   
-  --secondary: #ff007f;     /* Hot Magenta */
-  --secondary-glow: rgba(255, 0, 127, 0.25);
+  --secondary: #cfa252;       /* Koenigsegg Technical Gold */
+  --secondary-glow: rgba(207, 162, 82, 0.15);
   
-  --acid-lime: #ccff00;     /* Lime Green */
-  --acid-lime-glow: rgba(204, 255, 0, 0.25);
+  --chrome-silver: #a3a8b4;   /* Instrument Cluster Silver */
 
-  /* Trade States mapped to Acid Colors */
-  --bullish: #ccff00;       /* Lime Green for Bullish (extremely fresh) */
-  --bullish-glow: rgba(204, 255, 0, 0.3);
-  --bearish: #ff007f;       /* Neon Pink for Bearish */
-  --bearish-glow: rgba(255, 0, 127, 0.3);
-  --neutral: #00f5ff;       /* Cyan for Neutral */
-  --neutral-glow: rgba(0, 245, 255, 0.3);
+  /* Trade States mapped to High-Performance Gauges */
+  --bullish: #cfa252;         /* Performance Gold for Bullish */
+  --bullish-glow: rgba(207, 162, 82, 0.2);
+  --bearish: #ff334b;         /* Racing Red for Bearish */
+  --bearish-glow: rgba(255, 51, 75, 0.2);
+  --neutral: #00b4d8;         /* Instrument Blue for Neutral */
+  --neutral-glow: rgba(0, 180, 216, 0.2);
 
   --text-primary: #ffffff;
-  --text-secondary: #c0b3e3; /* Light lavender-slate */
-  --text-muted: #6e5c9b;
+  --text-secondary: #a3a8b4;   /* Clean silver-gray */
+  --text-muted: #515661;       /* Dark graphite */
   
-  --shadow-glow: 0 0 35px rgba(255, 0, 127, 0.15), 0 0 15px rgba(0, 245, 255, 0.1);
+  --shadow-glow: 0 8px 32px rgba(0, 0, 0, 0.8), 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
 * {
@@ -59,113 +58,98 @@ body {
   overflow-x: hidden;
   background-color: var(--bg-darker);
   background-image: 
-    radial-gradient(at 0% 0%, rgba(255, 0, 127, 0.08) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(0, 245, 255, 0.08) 0px, transparent 50%);
+    radial-gradient(at 0% 0%, rgba(207, 162, 82, 0.03) 0px, transparent 60%),
+    radial-gradient(at 100% 100%, rgba(255, 255, 255, 0.02) 0px, transparent 60%);
 }
 
-/* Bento Grid and Glassmorphism */
+/* Sharp, Minimalist Bento Layout */
 .glass-panel {
   background: var(--bg-card);
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
-  border: 2px solid var(--border-color);
-  border-radius: 20px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border: 1px solid var(--border-color);
+  border-radius: 6px; /* Sharp, precise supercar geometry */
+  box-shadow: var(--shadow-glow);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
-  overflow: hidden;
-}
-
-.glass-panel::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
 }
 
 .glass-panel:hover {
   border-color: var(--border-color-hover);
-  transform: translateY(-5px) scale(1.01);
-  box-shadow: 0 15px 45px rgba(0, 245, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.9), 0 0 15px rgba(207, 162, 82, 0.05);
 }
 
-/* Custom Input with Acid Accents */
+/* Precise Input fields */
 .glass-input {
-  background: rgba(8, 4, 28, 0.8);
-  border: 2px solid var(--border-color);
-  border-radius: 14px;
+  background: #0b0c10;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
   color: var(--text-primary);
-  padding: 14px 20px;
-  font-size: 1.05rem;
+  padding: 14px 18px;
+  font-size: 0.95rem;
   font-weight: 500;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  letter-spacing: 0.5px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   outline: none;
   font-family: inherit;
 }
 
 .glass-input:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 25px rgba(0, 245, 255, 0.35);
-  background: rgba(8, 4, 28, 0.95);
+  border-color: var(--secondary);
+  box-shadow: 0 0 20px rgba(207, 162, 82, 0.15);
+  background: #0f1115;
 }
 
-/* Cyber Button Styles */
+/* Technical Instrument Buttons */
 .glass-btn {
-  background: rgba(12, 6, 31, 0.6);
-  border: 2px solid var(--border-color);
-  border-radius: 14px;
+  background: #0d0f13;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
   color: var(--text-primary);
-  padding: 14px 28px;
-  font-size: 1rem;
+  padding: 12px 24px;
+  font-size: 0.85rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   font-family: 'Outfit', inherit;
 }
 
 .glass-btn:hover {
-  background: rgba(255, 0, 127, 0.08);
-  border-color: var(--border-color-hover);
-  transform: translateY(-3px);
-  box-shadow: 0 5px 20px rgba(0, 245, 255, 0.2);
+  background: rgba(255, 255, 255, 0.03);
+  border-color: var(--secondary);
+  transform: translateY(-1px);
 }
 
 .glass-btn-primary {
-  background: linear-gradient(135deg, var(--secondary), var(--primary));
-  border: 2px solid transparent;
-  color: #05020f;
-  box-shadow: 0 5px 15px rgba(255, 0, 127, 0.25);
+  background: #cfa252;
+  border: 1px solid transparent;
+  color: #060709;
 }
 
 .glass-btn-primary:hover {
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  box-shadow: 0 0 30px rgba(0, 245, 255, 0.5);
-  transform: translateY(-3px);
-  color: #05020f;
+  background: #e2b462;
+  box-shadow: 0 0 25px rgba(207, 162, 82, 0.35);
+  color: #060709;
 }
 
-/* Animations */
+/* Precision Animations */
 @keyframes float {
   0%, 100% {
-    transform: translateY(0px) rotate(0deg);
+    transform: translateY(0px);
   }
   50% {
-    transform: translateY(-12px) rotate(0.5deg);
+    transform: translateY(-8px);
   }
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
@@ -174,55 +158,59 @@ body {
 }
 
 .animate-fade-in {
-  animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .animate-float {
-  animation: float 5s ease-in-out infinite;
+  animation: float 4s ease-in-out infinite;
 }
 
-/* Glowing Typography */
+/* Telemetry Typography */
 .bullish-text {
   color: var(--bullish);
-  text-shadow: 0 0 25px var(--bullish-glow);
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
+  text-shadow: 0 0 20px var(--bullish-glow);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  letter-spacing: 1px;
 }
 
 .bearish-text {
   color: var(--bearish);
-  text-shadow: 0 0 25px var(--bearish-glow);
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
+  text-shadow: 0 0 20px var(--bearish-glow);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  letter-spacing: 1px;
 }
 
 .neutral-text {
   color: var(--neutral);
-  text-shadow: 0 0 25px var(--neutral-glow);
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
+  text-shadow: 0 0 20px var(--neutral-glow);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  letter-spacing: 1px;
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, var(--primary), var(--secondary), var(--acid-lime));
+  background: linear-gradient(135deg, #ffffff, var(--secondary), #8b92a1);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-family: 'Syne', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-weight: 800;
+  letter-spacing: 1px;
 }
 
-/* Custom Scrollbar */
+/* Custom Scrollbar (Stealth Carbon Track) */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 5px;
 }
 ::-webkit-scrollbar-track {
   background: var(--bg-darker);
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, var(--secondary), var(--primary));
-  border-radius: 6px;
+  background: var(--secondary);
+  border-radius: 0;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, var(--primary), var(--secondary));
+  background: #ffffff;
 }

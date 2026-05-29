@@ -72,21 +72,21 @@ function App() {
           backdropFilter: 'blur(10px)'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }} onClick={() => setMode('landing')}>
-            <Sparkles style={{ color: 'var(--primary)', width: '24px', height: '24px' }} />
-            <span style={{ fontSize: '1.3rem', fontWeight: 900, letterSpacing: '1.5px', fontFamily: 'Syne' }} className="gradient-text">
-              ANTIGRAVITY.VIBES
+            <Sparkles style={{ color: 'var(--secondary)', width: '24px', height: '24px' }} />
+            <span style={{ fontSize: '1.3rem', fontWeight: 900, letterSpacing: '2px', fontFamily: 'Outfit', color: 'var(--text-primary)' }}>
+              ANTIGRAVITY.TELEMETRY
             </span>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
             {trainingStatus === 'training' && (
-              <span style={{ fontSize: '0.85rem', color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 600 }}>
-                <span className="animate-float" style={{ display: 'inline-block' }}>🧠</span> Retraining Brain...
+              <span style={{ fontSize: '0.85rem', color: 'var(--secondary)', display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 600 }}>
+                <span className="animate-float" style={{ display: 'inline-block' }}>⚙️</span> Ingesting Datasets...
               </span>
             )}
             {trainingStatus === 'completed' && (
               <span style={{ fontSize: '0.85rem', color: 'var(--bullish)', display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 600 }}>
-                <CheckCircle2 style={{ width: '14px', height: '14px' }} /> Brain Retrained
+                <CheckCircle2 style={{ width: '14px', height: '14px' }} /> Calibration Complete
               </span>
             )}
             {backendHealth && backendHealth.model_status === 'not_trained (using fallback rules)' && trainingStatus === 'idle' && (
@@ -96,7 +96,7 @@ function App() {
                 style={{ padding: '8px 16px', fontSize: '0.8rem', borderColor: 'var(--secondary)' }}
               >
                 <Cpu style={{ width: '14px', height: '14px', color: 'var(--secondary)' }} />
-                Retrain ML Brain
+                Calibrate ML Core
               </button>
             )}
           </div>
@@ -116,13 +116,13 @@ function App() {
             <div className="animate-fade-in" style={{ maxWidth: '800px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <div style={{ 
                 padding: '12px 24px', 
-                background: 'rgba(255, 0, 127, 0.05)', 
-                border: '2px solid rgba(255, 0, 127, 0.15)',
-                borderRadius: '50px',
-                fontSize: '0.85rem',
+                background: 'rgba(255, 255, 255, 0.02)', 
+                border: '1px solid var(--border-color)',
+                borderRadius: '4px',
+                fontSize: '0.8rem',
                 fontWeight: 800,
-                color: 'var(--secondary)',
-                letterSpacing: '1.5px',
+                color: 'var(--text-secondary)',
+                letterSpacing: '2px',
                 marginBottom: '24px',
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -130,24 +130,24 @@ function App() {
                 fontFamily: 'Outfit'
               }}>
                 <Cpu style={{ width: '16px', height: '16px' }} />
-                AI-POWERED STOCK VIBE CHECK
+                HIGH-PERFORMANCE MODEL DIAGNOSTIC
               </div>
 
               {/* Greeting */}
-              <h1 style={{ fontSize: '4.2rem', fontWeight: 900, lineHeight: 1.1, marginBottom: '20px', fontFamily: 'Syne' }}>
-                Yo! What's the play today? <br />
-                <span className="gradient-text">Let's check some stock vibes.</span>
+              <h1 style={{ fontSize: '3.8rem', fontWeight: 800, lineHeight: 1.15, marginBottom: '20px', fontFamily: 'Outfit', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                Model Diagnostic Systems. <br />
+                <span className="gradient-text">Select Telemetry Mode.</span>
               </h1>
               
               <p style={{ 
                 color: 'var(--text-secondary)', 
-                fontSize: '1.2rem', 
+                fontSize: '1.15rem', 
                 maxWidth: '650px', 
                 lineHeight: 1.6, 
                 marginBottom: '45px',
                 fontWeight: 500
               }}>
-                Scan Indian stock momentum and map trend directions. Query live charts or drag-and-drop a screenshot directly into our pixel-scanner vision engine.
+                Evaluate market vectors and technical trends. Ingest live ticker telemetry or stream chart graphics directly into the vision processing unit.
               </p>
 
               {/* Selector Cards */}
@@ -180,25 +180,25 @@ function App() {
                     right: '-50px', 
                     width: '120px', 
                     height: '120px', 
-                    background: 'radial-gradient(circle, var(--primary-glow) 0%, rgba(0,0,0,0) 70%)',
+                    background: 'radial-gradient(circle, var(--secondary-glow) 0%, rgba(0,0,0,0) 70%)',
                     pointerEvents: 'none'
                   }} />
                   
                   <div style={{ 
                     padding: '12px', 
-                    background: 'rgba(0, 245, 255, 0.05)', 
-                    borderRadius: '12px', 
+                    background: 'rgba(255, 255, 255, 0.02)', 
+                    borderRadius: '4px', 
                     width: 'fit-content',
-                    border: '2px solid rgba(0, 245, 255, 0.1)',
+                    border: '1px solid var(--border-color)',
                     marginBottom: '20px'
                   }}>
-                    <LineChart style={{ color: 'var(--primary)', width: '28px', height: '28px' }} />
+                    <LineChart style={{ color: 'var(--secondary)', width: '28px', height: '28px' }} />
                   </div>
-                  <h3 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: '8px', color: 'var(--text-primary)', fontFamily: 'Outfit' }}>
-                    Scan Live Stock
+                  <h3 style={{ fontSize: '1.3rem', fontWeight: 800, marginBottom: '8px', color: 'var(--text-primary)', fontFamily: 'Outfit', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                    Live Ticker Telemetry
                   </h3>
                   <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.5 }}>
-                    Enter any NSE ticker (e.g. RELIANCE, TCS, TITAGARH) to retrieve spot prices. Models evaluate MACD, RSI, and SMA vibes.
+                    Stream spot prices for NSE listings (e.g. RELIANCE, TCS, TITAGARH). The ML classifier maps Moving Average slopes, MACD wicks, and RSI limits.
                   </p>
                 </div>
 
@@ -228,19 +228,19 @@ function App() {
 
                   <div style={{ 
                     padding: '12px', 
-                    background: 'rgba(255, 0, 127, 0.05)', 
-                    borderRadius: '12px', 
+                    background: 'rgba(255, 255, 255, 0.02)', 
+                    borderRadius: '4px', 
                     width: 'fit-content',
-                    border: '2px solid rgba(255, 0, 127, 0.1)',
+                    border: '1px solid var(--border-color)',
                     marginBottom: '20px'
                   }}>
                     <ImageIcon style={{ color: 'var(--secondary)', width: '28px', height: '28px' }} />
                   </div>
-                  <h3 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: '8px', color: 'var(--text-primary)', fontFamily: 'Outfit' }}>
-                    Pixel Vision Scan
+                  <h3 style={{ fontSize: '1.3rem', fontWeight: 800, marginBottom: '8px', color: 'var(--text-primary)', fontFamily: 'Outfit', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                    Vision System Input
                   </h3>
                   <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.5 }}>
-                    Drop in any chart screenshot. OpenCV maps candle boundaries, extracts wicks, scales values, and queries the ML brain.
+                    Ingest chart graphics. The vision engine segments candle parameters, computes pixel offsets, and scores wicks.
                   </p>
                 </div>
 

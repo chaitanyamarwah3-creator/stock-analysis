@@ -44,15 +44,20 @@ class StockPredictor:
                 symbol = f"{symbol}.NS"
 
             ticker = yf.Ticker(symbol)
-            df     = ticker.history(period="60d")
+            # Download a full 1-year history to provide rich padding/buffers for indicators
+            df     = ticker.history(period="1y")
 
-            if df.empty or len(df) < 30:
+            if df.empty or len(df) < 35:
                 return {"success": False,
                         "error": f"Not enough historical data for symbol: {symbol}"}
 
             # Flatten MultiIndex columns if present (recent yfinance versions return MultiIndex columns even for single tickers)
             if isinstance(df.columns, pd.MultiIndex):
                 df.columns = df.columns.get_level_values(0)
+
+            # Drop the latest row if it is a pre-market or weekend bar with zero trading volume
+            if len(df) > 1 and df["Volume"].iloc[-1] == 0:
+                df = df.iloc[:-1]
 
             info            = ticker.info
             name            = info.get("longName", symbol)
