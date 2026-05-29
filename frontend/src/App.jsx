@@ -27,7 +27,7 @@ function App() {
   const [speculatorPrices, setSpeculatorPrices] = useState({});
   const [speculatorLoading, setSpeculatorLoading] = useState(false);
 
-  // Mouse coordinates tracker
+  // Mouse coordinates tracker for title parallax tilt
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -69,24 +69,32 @@ function App() {
     fetchMarketData();
   }, []);
 
-  // Define recommendations dictionary
+  // Expanded recommendations list to include more stocks per horizon
   const recommendations = {
     '1W': [
       { symbol: 'TITAGARH', name: 'Titagarh Rail Systems', target: 'Bullish', rationale: 'Strong technical momentum, RSI rebound & volume breakout. Ideal for 1-week tactical long setups.' },
-      { symbol: 'TATAMOTORS', name: 'Tata Motors', target: 'Bullish', rationale: 'Moving averages indicate a bullish crossover on daily intervals. Strong short-term buying accumulation.' }
+      { symbol: 'TATAMOTORS', name: 'Tata Motors', target: 'Bullish', rationale: 'Moving averages indicate a bullish crossover on daily intervals. Strong short-term buying accumulation.' },
+      { symbol: 'RVNL', name: 'Rail Vikas Nigam Limited', target: 'Bullish', rationale: 'Railway infrastructure sector breakout. High-volume daily green candles support short-term target runs.' },
+      { symbol: 'IRFC', name: 'Indian Railway Finance Corp', target: 'Bullish', rationale: 'Clear support at the 10-day EMA with expanding volumes, primed for a short-term trend push.' }
     ],
     '1M': [
       { symbol: 'SBIN', name: 'State Bank of India', target: 'Bullish', rationale: 'Price consolidating near structural support. Low volatility bands suggest a major swing breakout soon.' },
-      { symbol: 'LT', name: 'Larsen & Toubro', target: 'Bullish', rationale: 'Steady volume accumulation and support at the 30-day SMA. Prime pick for a 4-week swing trade.' }
+      { symbol: 'LT', name: 'Larsen & Toubro', target: 'Bullish', rationale: 'Steady volume accumulation and support at the 30-day SMA. Prime pick for a 4-week swing trade.' },
+      { symbol: 'BAJFINANCE', name: 'Bajaj Finance', target: 'Bullish', rationale: 'Tightly contracting Bollinger Bands near key quarterly support. High-conviction setup for 30-day swing plays.' },
+      { symbol: 'ZOMATO', name: 'Zomato Limited', target: 'Bullish', rationale: 'Strong institutional accumulation and volume breakout on weekly intervals suggest a major 1-month rally.' }
     ],
     '1Y': [
       { symbol: 'RELIANCE', name: 'Reliance Industries', target: 'Bullish', rationale: 'Scale-invariant projections suggest long-term consolidation breaks, pointing to target gains on 1-year horizons.' },
-      { symbol: 'INFY', name: 'Infosys Limited', target: 'Bullish', rationale: 'Indicator metrics suggest standard valuation discount. Target recovery projected on a 12-month sequence.' }
+      { symbol: 'INFY', name: 'Infosys Limited', target: 'Bullish', rationale: 'Indicator metrics suggest standard valuation discount. Target recovery projected on a 12-month sequence.' },
+      { symbol: 'TATASTEEL', name: 'Tata Steel Limited', target: 'Bullish', rationale: 'Commodity cycles project structural 12-month commodity sector turnaround. 1-year target growth of +22%.' },
+      { symbol: 'HAL', name: 'Hindustan Aeronautics', target: 'Bullish', rationale: 'Strong order book and strategic defense allocation support substantial multi-quarter growth targets.' }
     ],
     '10Y': [
       { symbol: 'TCS', name: 'Tata Consultancy Services', target: 'Bullish', rationale: 'Industry leader with high return on equity and consistent compounding yield. Foundational defensive reserve.' },
       { symbol: 'HDFCBANK', name: 'HDFC Bank', target: 'Bullish', rationale: 'Dominant credit market share and core capitalization make this the ultimate generational banking reserve.' },
-      { symbol: 'ITC', name: 'ITC Limited', target: 'Bullish', rationale: 'Resilient cash flow model and defensive pricing telemetry represent a reliable compounding anchor for a decade.' }
+      { symbol: 'ITC', name: 'ITC Limited', target: 'Bullish', rationale: 'Resilient cash flow model and defensive pricing telemetry represent a reliable compounding anchor for a decade.' },
+      { symbol: 'HINDUNILVR', name: 'Hindustan Unilever', target: 'Bullish', rationale: 'Dominant consumer market share and high return on capital. Provides robust defensive dividends for a decade.' },
+      { symbol: 'BEL', name: 'Bharat Electronics', target: 'Bullish', rationale: 'Monopoly position in Indian defense electronics makes this a structural compounding pick for generational growth.' }
     ]
   };
 
@@ -141,15 +149,13 @@ function App() {
     }
   };
 
+  // Calculate mouse position offsets for header parallax translation
+  const offsetX = (mousePos.x - window.innerWidth / 2) * 0.05;
+  const offsetY = (mousePos.y - window.innerHeight / 2) * 0.05;
+
   return (
     <div style={{ position: 'relative', minHeight: '100vh', width: '100vw', overflowX: 'hidden' }}>
-      {/* Floating HUD Telemetry Cursor Tag */}
-      <div className="cursor-telemetry-tag" style={{ left: mousePos.x, top: mousePos.y }}>
-        X: {mousePos.x}px | Y: {mousePos.y}px <br />
-        SYS_STATUS: CONNECTED <br />
-        ACTIVE_HUD: {activeModal ? activeModal.toUpperCase() : 'STANDBY'}
-      </div>
-
+      
       {/* Dynamic particles Reacting to Cursor */}
       <ParticlesBg />
 
@@ -237,10 +243,21 @@ function App() {
               <span className="tech-label" style={{ fontSize: '0.7rem' }}>HIGH-PERFORMANCE MODEL CONSOLE</span>
             </div>
 
-            {/* Title */}
-            <h1 style={{ fontSize: '3.6rem', fontWeight: 900, lineHeight: 1.1, marginBottom: '24px', fontFamily: 'Outfit', textTransform: 'uppercase', letterSpacing: '0.02em' }}>
-              HUD TELEMETRY COCKPIT. <br />
-              <span className="gradient-text">ACTIVATE CONSOLE MODULE.</span>
+            {/* Title with smooth cursor-following parallax translation */}
+            <h1 style={{ 
+              fontSize: '3.6rem', 
+              fontWeight: 900, 
+              lineHeight: 1.1, 
+              marginBottom: '24px', 
+              fontFamily: 'Outfit', 
+              textTransform: 'uppercase', 
+              letterSpacing: '0.02em',
+              transform: `translate(${offsetX}px, ${offsetY}px)`,
+              transition: 'transform 0.08s ease-out',
+              display: 'inline-block'
+            }}>
+              HUD Telemetry Cockpit. <br />
+              <span className="gradient-text">Activate Console Module.</span>
             </h1>
             
             <p style={{ 

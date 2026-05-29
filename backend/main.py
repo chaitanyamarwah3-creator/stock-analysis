@@ -44,7 +44,10 @@ def get_gainers_losers():
     tickers = [
         'RELIANCE.NS', 'TCS.NS', 'HDFCBANK.NS', 'INFY.NS', 'ICICIBANK.NS',
         'SBIN.NS', 'BHARTIARTL.NS', 'LT.NS', 'ITC.NS', 'TITAGARH.NS',
-        'WIPRO.NS', 'ADANIENT.NS', 'AXISBANK.NS', 'ASIANPAINT.NS', 'SUNPHARMA.NS'
+        'WIPRO.NS', 'ADANIENT.NS', 'AXISBANK.NS', 'ASIANPAINT.NS', 'SUNPHARMA.NS',
+        'ONGC.NS', 'NTPC.NS', 'POWERGRID.NS', 'TATASTEEL.NS', 'COALINDIA.NS',
+        'BAJFINANCE.NS', 'JSWSTEEL.NS', 'TECHM.NS', 'HINDUNILVR.NS', 'HAL.NS',
+        'BEL.NS', 'IRFC.NS', 'RVNL.NS', 'HUDCO.NS', 'ZOMATO.NS'
     ]
     try:
         data = yf.download(tickers, period="5d", group_by='ticker', progress=False)
@@ -73,8 +76,8 @@ def get_gainers_losers():
             return {"success": False, "error": "No market telemetry could be parsed."}
             
         results.sort(key=lambda x: x["change_pct"], reverse=True)
-        gainers = results[:3]
-        losers = results[-3:][::-1] # reverse so worst loser is first
+        gainers = results[:5]
+        losers = results[-5:][::-1] # reverse so worst loser is first
         
         return {
             "success": True,
