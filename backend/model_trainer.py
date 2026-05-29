@@ -57,8 +57,12 @@ def calculate_indicators(df):
 def prepare_dataset():
     """Download representative stock data to simulate a high-quality Kaggle dataset."""
     print("Fetching historical market data...")
-    # Using SPY (S&P 500 ETF) and blue chips (AAPL, MSFT, GOOG, TSLA) to form a robust dataset
-    tickers = ['SPY', 'AAPL', 'MSFT', 'GOOG', 'TSLA', 'AMZN', 'NVDA']
+    # Using top Indian blue-chips and growth stocks to form a robust NSE dataset
+    tickers = [
+        'RELIANCE.NS', 'TCS.NS', 'HDFCBANK.NS', 'INFY.NS', 'ICICIBANK.NS',
+        'SBIN.NS', 'BHARTIARTL.NS', 'LT.NS', 'ITC.NS', 'TATAMOTORS.NS', 
+        'TITAGARH.NS', '^NSEI'
+    ]
     all_data = []
     
     for ticker in tickers:

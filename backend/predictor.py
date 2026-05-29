@@ -38,6 +38,11 @@ class StockPredictor:
     def predict_live(self, symbol: str):
         """Fetches live stock data and predicts Bullish / Neutral / Bearish."""
         try:
+            symbol = symbol.strip().upper()
+            # If standard ticker without suffix and not an index symbol
+            if not symbol.startswith('^') and '.' not in symbol:
+                symbol = f"{symbol}.NS"
+
             ticker = yf.Ticker(symbol)
             df     = ticker.history(period="60d")
 

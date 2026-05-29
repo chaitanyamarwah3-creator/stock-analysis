@@ -73,30 +73,30 @@ function App() {
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }} onClick={() => setMode('landing')}>
             <Sparkles style={{ color: 'var(--primary)', width: '24px', height: '24px' }} />
-            <span style={{ fontSize: '1.2rem', fontWeight: 800, letterSpacing: '1px' }} className="gradient-text">
-              ANTIGRAVITY.FINANCE
+            <span style={{ fontSize: '1.3rem', fontWeight: 900, letterSpacing: '1.5px', fontFamily: 'Syne' }} className="gradient-text">
+              ANTIGRAVITY.VIBES
             </span>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
             {trainingStatus === 'training' && (
-              <span style={{ fontSize: '0.8rem', color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span className="animate-float" style={{ display: 'inline-block' }}>⚙️</span> Training Classifier...
+              <span style={{ fontSize: '0.85rem', color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 600 }}>
+                <span className="animate-float" style={{ display: 'inline-block' }}>🧠</span> Retraining Brain...
               </span>
             )}
             {trainingStatus === 'completed' && (
-              <span style={{ fontSize: '0.8rem', color: 'var(--bullish)', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <CheckCircle2 style={{ width: '14px', height: '14px' }} /> Model Trained
+              <span style={{ fontSize: '0.85rem', color: 'var(--bullish)', display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 600 }}>
+                <CheckCircle2 style={{ width: '14px', height: '14px' }} /> Brain Retrained
               </span>
             )}
             {backendHealth && backendHealth.model_status === 'not_trained (using fallback rules)' && trainingStatus === 'idle' && (
               <button 
                 onClick={triggerTraining} 
                 className="glass-btn" 
-                style={{ padding: '6px 12px', fontSize: '0.8rem', borderColor: 'rgba(0, 242, 254, 0.3)' }}
+                style={{ padding: '8px 16px', fontSize: '0.8rem', borderColor: 'var(--secondary)' }}
               >
-                <Cpu style={{ width: '14px', height: '14px', color: 'var(--primary)' }} />
-                Train ML Classifier
+                <Cpu style={{ width: '14px', height: '14px', color: 'var(--secondary)' }} />
+                Retrain ML Brain
               </button>
             )}
           </div>
@@ -116,36 +116,38 @@ function App() {
             <div className="animate-fade-in" style={{ maxWidth: '800px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <div style={{ 
                 padding: '12px 24px', 
-                background: 'rgba(0, 242, 254, 0.05)', 
-                border: '1px solid rgba(0, 242, 254, 0.15)',
+                background: 'rgba(255, 0, 127, 0.05)', 
+                border: '2px solid rgba(255, 0, 127, 0.15)',
                 borderRadius: '50px',
                 fontSize: '0.85rem',
-                fontWeight: 600,
-                color: 'var(--primary)',
-                letterSpacing: '1px',
+                fontWeight: 800,
+                color: 'var(--secondary)',
+                letterSpacing: '1.5px',
                 marginBottom: '24px',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '8px'
+                gap: '8px',
+                fontFamily: 'Outfit'
               }}>
                 <Cpu style={{ width: '16px', height: '16px' }} />
-                AI-POWERED STOCK INTELLIGENCE
+                AI-POWERED STOCK VIBE CHECK
               </div>
 
               {/* Greeting */}
-              <h1 style={{ fontSize: '3.8rem', fontWeight: 800, lineHeight: 1.15, marginBottom: '16px' }}>
-                Hello, User. <br />
-                <span className="gradient-text">What would you like today?</span>
+              <h1 style={{ fontSize: '4.2rem', fontWeight: 900, lineHeight: 1.1, marginBottom: '20px', fontFamily: 'Syne' }}>
+                Yo! What's the play today? <br />
+                <span className="gradient-text">Let's check some stock vibes.</span>
               </h1>
               
               <p style={{ 
                 color: 'var(--text-secondary)', 
-                fontSize: '1.15rem', 
-                maxWidth: '600px', 
+                fontSize: '1.2rem', 
+                maxWidth: '650px', 
                 lineHeight: 1.6, 
-                marginBottom: '45px' 
+                marginBottom: '45px',
+                fontWeight: 500
               }}>
-                Analyze stock momentum and approximate trend directions. Toggle live metrics or feed a chart screenshot directly into our OpenCV vision engine.
+                Scan Indian stock momentum and map trend directions. Query live charts or drag-and-drop a screenshot directly into our pixel-scanner vision engine.
               </p>
 
               {/* Selector Cards */}
@@ -155,7 +157,7 @@ function App() {
                 justifyContent: 'center', 
                 gap: '24px', 
                 width: '100%', 
-                maxWidth: '700px' 
+                maxWidth: '720px' 
               }}>
                 
                 {/* Live Ticker Card */}
@@ -165,7 +167,7 @@ function App() {
                   style={{ 
                     flex: 1, 
                     minWidth: '280px', 
-                    padding: '30px', 
+                    padding: '35px 30px', 
                     cursor: 'pointer', 
                     textAlign: 'left',
                     position: 'relative',
@@ -184,19 +186,19 @@ function App() {
                   
                   <div style={{ 
                     padding: '12px', 
-                    background: 'rgba(0, 242, 254, 0.05)', 
+                    background: 'rgba(0, 245, 255, 0.05)', 
                     borderRadius: '12px', 
                     width: 'fit-content',
-                    border: '1px solid rgba(0, 242, 254, 0.1)',
+                    border: '2px solid rgba(0, 245, 255, 0.1)',
                     marginBottom: '20px'
                   }}>
                     <LineChart style={{ color: 'var(--primary)', width: '28px', height: '28px' }} />
                   </div>
-                  <h3 style={{ fontSize: '1.3rem', fontWeight: 700, marginBottom: '8px', color: 'var(--text-primary)' }}>
-                    Analyze Live Stock
+                  <h3 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: '8px', color: 'var(--text-primary)', fontFamily: 'Outfit' }}>
+                    Scan Live Stock
                   </h3>
                   <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.5 }}>
-                    Enter any ticker symbol to retrieve up-to-date market prices. Models evaluate Moving Average crossovers, MACD, and RSI signals.
+                    Enter any NSE ticker (e.g. RELIANCE, TCS, TITAGARH) to retrieve spot prices. Models evaluate MACD, RSI, and SMA vibes.
                   </p>
                 </div>
 
@@ -207,7 +209,7 @@ function App() {
                   style={{ 
                     flex: 1, 
                     minWidth: '280px', 
-                    padding: '30px', 
+                    padding: '35px 30px', 
                     cursor: 'pointer', 
                     textAlign: 'left',
                     position: 'relative',
@@ -226,19 +228,19 @@ function App() {
 
                   <div style={{ 
                     padding: '12px', 
-                    background: 'rgba(157, 78, 221, 0.05)', 
+                    background: 'rgba(255, 0, 127, 0.05)', 
                     borderRadius: '12px', 
                     width: 'fit-content',
-                    border: '1px solid rgba(157, 78, 221, 0.1)',
+                    border: '2px solid rgba(255, 0, 127, 0.1)',
                     marginBottom: '20px'
                   }}>
                     <ImageIcon style={{ color: 'var(--secondary)', width: '28px', height: '28px' }} />
                   </div>
-                  <h3 style={{ fontSize: '1.3rem', fontWeight: 700, marginBottom: '8px', color: 'var(--text-primary)' }}>
-                    Upload Screenshot
+                  <h3 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: '8px', color: 'var(--text-primary)', fontFamily: 'Outfit' }}>
+                    Pixel Vision Scan
                   </h3>
                   <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.5 }}>
-                    Upload or drag-and-drop a chart image. Uses OpenCV-based edge processing to trace the price line and calculate historical angles.
+                    Drop in any chart screenshot. OpenCV maps candle boundaries, extracts wicks, scales values, and queries the ML brain.
                   </p>
                 </div>
 
@@ -256,12 +258,13 @@ function App() {
         <footer style={{ 
           padding: '24px 40px', 
           textAlign: 'center', 
-          borderTop: '1px solid rgba(255, 255, 255, 0.03)',
+          borderTop: '2px solid rgba(255, 255, 255, 0.03)',
           color: 'var(--text-muted)',
-          fontSize: '0.8rem',
-          background: 'rgba(2, 6, 23, 0.2)'
+          fontSize: '0.85rem',
+          background: 'rgba(5, 2, 15, 0.4)',
+          fontWeight: 600
         }}>
-          Antigravity FinTech Studio • Built using FastAPI, React, and computer vision trend classifiers.
+          Antigravity FinTech Studio • Built using FastAPI, React, OpenCV, and Random Forest models.
         </footer>
       </main>
     </div>
