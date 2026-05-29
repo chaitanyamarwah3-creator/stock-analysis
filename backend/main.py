@@ -84,6 +84,47 @@ def get_gainers_losers():
     except Exception as e:
         return {"success": False, "error": str(e)}
 
+@app.get("/api/market/batch")
+def get_batch_prices(symbols: str = Query(..., description="Comma-separated ticker symbols")):
+    """Fetch live pricing telemetry for a batch of tickers."""
+    sym_list = [f"{s.strip().upper()}.NS" for s in symbols.split(",") if s.strip()]
+    try:
+        if not sym_list:
+            return {"success": False, "error": "No symbols specified."}
+        data = yf.download(sym_list, period="5d", group_by='ticker', progress=False)
+        results = {}
+        
+        if len(sym_list) == 1:
+            ticker = sym_list[0]
+            ticker_name = ticker.replace(".NS", "")
+            df = data.dropna(subset=["Close"]) if not data.empty else None
+            if df is not None and not df.empty:
+                close = float(df["Close"].iloc[-1])
+                prev_close = float(df["Close"].iloc[-2]) if len(df) > 1 else close
+                results[ticker_name] = {
+                    "price": close,
+                    "change": close - prev_close,
+                    "change_pct": ((close - prev_close) / prev_close) * 100
+                }
+        else:
+            for sym in sym_list:
+                ticker_name = sym.replace(".NS", "")
+                if sym not in data or data[sym].empty:
+                    continue
+                df = data[sym].dropna(subset=["Close"])
+                if df.empty:
+                    continue
+                close = float(df["Close"].iloc[-1])
+                prev_close = float(df["Close"].iloc[-2]) if len(df) > 1 else close
+                results[ticker_name] = {
+                    "price": close,
+                    "change": close - prev_close,
+                    "change_pct": ((close - prev_close) / prev_close) * 100
+                }
+        return {"success": True, "data": results}
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
 @app.post("/api/predict/screenshot")
 async def predict_screenshot(file: UploadFile = File(...)):
     """Predict trend from a screenshot of a stock chart using OpenCV."""
